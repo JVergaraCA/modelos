@@ -1,0 +1,23 @@
+rails new modelos -d postgresql
+cd modelos
+bundle
+rake db:create
+rails g model User name
+rails g model Photo url
+rails g migration addUserToPhoto user.references
+rake db:migrate
+rails c
+User.create(name:"Jose")
+p = User.find(3)
+Photo.create(url:"imagen")
+v = Photo.find(1)
+v.user_id=p.id
+v.save
+photo.all
+User.find(3).destroy
+
+ SQL (1.8ms)  DELETE FROM "users" WHERE "users"."id" = $1  [["id", 3]]
+   (0.3ms)  ROLLBACK
+ActiveRecord::InvalidForeignKey: PG::ForeignKeyViolation: ERROR:  update or delete on table "users" violates foreign key constraint "fk_rails_c79d76afc0" on table "photos"
+DETAIL:  Key (id)=(3) is still referenced from table "photos".
+: DELETE FROM "users" WHERE "users"."id" = $1 .......
